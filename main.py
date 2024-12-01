@@ -103,7 +103,7 @@ async def comlist(event):
 
 @client.on(events.NewMessage(pattern=r'\.alive'))
 async def active_command(event):
-    cool_text = "𐂡 卄ㄖ丂ㄒ𓅆"
+    cool_text = "𝗙𝗞𝗚🂱"
     await event.edit(f"⚝ {cool_text} `userbot aktivdir...`")
 
 # qrup info
@@ -502,7 +502,7 @@ def get_lyrics(song_title):
             else:
                 lyrics = "Mahnı sözləri tapılmadı."
 
-        return f"🅒🅞🅛🅓 🅤🅢🅔🅡🅑🅞🅣\n\n{lyrics}"
+        return f"𝗙𝗞𝗚🂱 🅤🅢🅔🅡🅑🅞🅣\n\n{lyrics}"
         
     except IndexError:
         return "Mahnı sözləri tapılmadı."
@@ -594,7 +594,7 @@ async def label_users(event, label_text):
 
 @client.on(events.NewMessage(pattern=r'\.tektag', outgoing=True))
 async def label_command(event): 
-    await event.edit("**𐂡 卄ㄖ丂ㄒ𓅆 `userbot aktivləşdi...` \nEtiketləmə başladılır**")
+    await event.edit("**𝗙𝗞𝗚🂱**`userbot aktivləşdi...` \nEtiketləmə başladılır**")
     global stop_labeling, labeling_task
     if labeling_task and not stop_labeling:
         await event.edit("Etiketleme artıq davam edir.")
@@ -690,7 +690,7 @@ async def banall(event):
         except Exception as e:
             await asyncio.sleep(0.3)
 
-    await event.edit("**Boss girdi çıxdı😈**\n Qrup sıfırlandı")
+    await event.edit("**𝗙𝗞𝗚🂱 girdi çıxdı😈**\n Qrup sıfırlandı")
 
 # sozu terse cevir
 
@@ -1033,9 +1033,9 @@ async def send_sound(event):
         if os.path.exists(sound_file):
             if event.is_reply:
                 reply_msg = await event.get_reply_message()
-                await client.send_file(event.chat_id, sound_file, caption=f"**𐂡 卄ㄖ丂ㄒ𓅆 𝘀𝗼𝘂𝗻𝗱 𝗲𝗳𝗳𝗲𝗰𝘁**", reply_to=reply_msg.id)
+                await client.send_file(event.chat_id, sound_file, caption=f"**𝗙𝗞𝗚🂱 𝘀𝗼𝘂𝗻𝗱 𝗲𝗳𝗳𝗲𝗰𝘁**", reply_to=reply_msg.id)
             else:
-                await client.send_file(event.chat_id, sound_file, caption=f"**𐂡 卄ㄖ丂ㄒ𓅆 𝘀𝗼𝘂𝗻𝗱 𝗲𝗳𝗳𝗲𝗰𝘁**")
+                await client.send_file(event.chat_id, sound_file, caption=f"**𝗙𝗞𝗚🂱 𝘀𝗼𝘂𝗻𝗱 𝗲𝗳𝗳𝗲𝗰𝘁**")
             
             # Komutu içeren mesajı sil
             await event.delete()
@@ -1908,6 +1908,299 @@ async def oyun_mesaji(event):
             await event.reply(MESAJ_METNI)
         except Exception as e:
             print(f"Mesaj gönderilemedi: {e}")
+
+# Puan tablosu için bir sözlük
+scores = {}
+# Oyun məlumatları
+kelimeler =  [
+    "komputer", "proqram", "robot", "teleqram", "internet", "dil", "məktəb", "elm", "sistem", "təcrübə",
+    "hesablama", "şəbəkə", "təhlükəsizlik", "məlumat", "idarəetmə", "ağıllı", "funksiya", "düstur", "təhlil", "məsələ",
+    "texnologiya", "kalkulyator", "təsnifat", "emal", "nəticə", "təchizat", "araşdırma", "mühəndislik", "tədris",
+    "yaddaş", "rəqəmsal", "informasiya", "layihə", "vasitə", "şifrə", "inkişaf", "idarəçi", "məkan",
+    "adam", "advokat", "bahalı", "bakal", "bakteriya", "başqa", "balıqçı", "batmaq", "bildiriş", 
+    "birdən", "bacanaq", "buzlaq", "bəraət", "böhtan", "bölünmək", "boşqab", "bükmək", "bədən", "cadu",
+    "cadugər", "cahil", "caiz", "calaq", "camış", "can", "canavar", "canlı", "cansız", "cari", 
+    "casus", "cavab", "cavab vermək", "cavan", "caynaq", 
+    "caz", "cazibə", "cazibədar", "cehiz", "cem", "ciddi", 
+    "cihaz", "cild", "cilov", "cin", "cinayət", "cinayətkar", "cins", "cinsi", "cır", "cırcırama", 
+    "cırmaq", "cisim", "civə", "cizgi", "corab", 
+    "coğrafi", "coğrafiya", "coşmaq", "coşqun", 
+    "cökə", "cücü", "dalğalı", "dalğıc", "dalğınlıq", "dam", "damaq", 
+    "damar", "damcı", "damcılamaq", "dammaq", "damğa", "dana", 
+    "danışdı", "danışıq", "danışmaq", "danlamaq", "danlanmaq", "danlatmaq", "dar", "daraq", "darı", "darıxdırıcı", 
+    "darıxmaq", "dartmaq", "darvaza", "darçın", "dava", "davranış", "daxili", "daxma", "dayanacaq", 
+    "dayandırmaq", "dayanmaq", "dayaq", "dayaz", "dayı", "daylaq", "dayça", "dayə", "dazlaşmaq", 
+    "dağ", "dağılmaq", "dağıntı", "dağıtmaq", "dağlaləsi", "dağlıq", 
+    "daş", "daşımaq", "daşıyıcı", 
+    "dekabr", "delfin", "demokratiya", "demək", 
+    "demək ki", "deməli", "deputat", "desant", "desert", "devirmək","etdirmək", "etibar", "etimad", "etiraf", "etiraz", "etmək", "ev", "Everest", "evli",
+    "evlənmək", "ey", "eybəcər", "eyham", "eyhamlı", "eyib", "eyni", "eyvan",
+    "eşik", "eşitmək", "eşmək", "eşq", "eşşək", "fabrik", "faciə", "faiz", "fakt",
+    "fakültə", "fani", "fantastik", "farsca", "fasad", "faydalı", "faydasız", "fayton",
+    "fevral", "fidan", "fikir", "fikir vermək", "fikirli", "fikirləşmək", "fil", 
+    "Filippin", "filiz", "film", "filosof", "fincan", "fındıq", "Finlandiya",
+    "futbolçu", "fürsət", "Füzuli", "fəal", "fəaliyyət", "fəhlə", "fəlakət", 
+    "fəlsəfə", "gavalı", "gec", "gecə", "gediş", "general", "geniş", "geologiya", 
+    "geoloq", "gerb", "geriləmək", "getmək", "geydirmək", "geyim", "geyindirmək", 
+    "geyinmək", "geymək", "gicgah", "gicitkən", "gigiyena", "gil", "gilas", "giliz", 
+    "gilə", "giləmeyvə", "gilənar", "gimnastika", "gips", "girdə", "giriş", "girmək", 
+    "girov", "Hacıqabul", "hadisə", "hakim", "hakimiyyət", "halqa", "halva", "hamam", 
+    "hamar", "hambal", "hamı", "hamilə", "hamısı", "haqq", "haqqında", "hara", 
+    "harada", "haraya", "hasar", "hasarlamaq", "hasil", "hasilat", "heykəl", 
+    "heykəltəraş", "heykəltəraşlıq", "heyran", "heyva", "heyvandarlıq", "heyət", 
+    "heç", "ibadət", "ibarə", "iblis", "icad", "icarə", "icazə", "icazə vermək", 
+    "iclas", "icmal", "icraçı", "ictimai", "idarə", "idarə etmək", "idbar", "iddia", 
+    "iddiaçı", "ideya", "idman", "idmançı", "idrak", "ifadə", "ifadə etmək", 
+    "ifaçı", "iffətli", "iflic", "ifritə", "iftira", "igid", "iki", "il", "ilahi", 
+    "ilanbalığı", "ilbiz", "ildırım", "kabab", "kabel", "kadr", "kafir", "kaftar", 
+    "kahı", "kahin", "kainat", "kakao", "kaktus", "kal", "Kaliforniya", "kalium", 
+    "kalsium", "kamal", "Kamal", "kaman", "ki", "kifayət", "kifir", "kiflənmək", 
+    "kilid", "kilidləmək", "Kilis", "kilometr", "kilsə", "kim", "liman", "limon", 
+    "linza", "mahir", "mahnı", "mexanizm", "meyar", "meydan", "meydança", "meyil", 
+    "meymun", "meyvə", "meşə", "milyon", "milçək", "min", "mina", "minarə", 
+    "minbər", "mineral", "Mingəçevir", "möcüzə", "möhkəm"
+]
+
+# Her grup için ayrı oyun durumu ve puan tablolarını saklamak üzere yapı
+games = {}
+
+@client.on(events.NewMessage(pattern=r"^/startmix$", outgoing=True, incoming=True))
+async def start_game(event):
+    global kelimeler
+    
+    chat_id = event.chat_id
+    # Oyun zaten başlamış mı?
+    if chat_id in games and games[chat_id]["current_word"]:
+        await event.reply("🔄 Oyun artıq davam edir!")
+        return
+    
+    # Yeni oyun başlatmak için oyuna özel verileri başlat
+    games[chat_id] = {
+        "current_word": "",
+        "shuffled_word": "",
+        "tur_sayisi": 0,
+        "max_tur": 40,
+        "scores": {},
+        "used_words": set()  # Kullanılan kelimeleri tutmak için
+    }
+    
+    await start_new_round(event)
+
+async def start_new_round(event):
+    """Yeni bir oyun turunu başlatır."""
+    chat_id = event.chat_id
+    game_data = games[chat_id]
+    
+    if game_data["tur_sayisi"] >= game_data["max_tur"]:
+        if game_data["scores"]:
+            kazanan_id, en_yuksek_puan = max(game_data["scores"].items(), key=lambda x: x[1])
+            kazanan_name = (await client.get_entity(kazanan_id)).first_name
+            await event.reply(f"🏆 Oyun bitdi! Qalib: {kazanan_name} ({en_yuksek_puan} xal) 🎉")
+        else:
+            await event.reply("🛑 Oyun bitdi, heç kim xal qazanmadı.")
+        games.pop(chat_id)  # Oyun verilerini temizle
+        return
+    
+    # Yeni bir söz seç ve karıştır
+    available_words = [word for word in kelimeler if word not in game_data["used_words"]]
+    
+    if not available_words:
+        await event.reply("🛑 Bütün sözlər istifadə edilib, oyun bitdi!")
+        games.pop(chat_id)  # Oyun verilerini temizle
+        return
+    
+    current_word = random.choice(available_words)
+    shuffled_word = ''.join(random.sample(current_word, len(current_word)))
+    first_letter = current_word[0]  # Doğru kelimenin ilk harfi
+    word_length = len(current_word)  # Kelimenin harf sayısı
+    points = word_length  # Verilecek puan miktarı
+    
+    # Oyun verilerini güncelle
+    game_data["current_word"] = current_word
+    game_data["shuffled_word"] = shuffled_word
+    game_data["tur_sayisi"] += 1  # Tur sayısını artır
+    game_data["used_words"].add(current_word)  # Kullanılan kelimeyi ekle
+    
+    await event.reply(f"Tur {game_data['tur_sayisi']}/{game_data['max_tur']}\n\n"
+                      f"🔤 Qarışıq söz : **{shuffled_word}**\n"
+                      f"📍 İlk hərf: **{first_letter}**\n"
+                      f"🔢 Xal: **{points}**\n"
+                      f"🔠 Hərf sayı: **{word_length}**\n\n"
+                      f"Düzgün sözü tapmağa çalışın!")
+    
+    # Her 10 turda bir puan tablosunu göster
+    if game_data["tur_sayisi"] % 10 == 0:
+        await show_scores(event)
+
+@client.on(events.NewMessage(pattern=r"^/stopmix$", outgoing=True, incoming=True))
+async def stop_game(event):
+    chat_id = event.chat_id
+    
+    if chat_id in games:
+        games.pop(chat_id)  # Oyunu durdur ve verileri temizle
+        user_id = event.sender_id
+        user = await client.get_entity(user_id)
+        first_name = user.first_name or "İstifadəçi"
+        first_name_mention = f"[{first_name}](tg://user?id={user_id})"
+        await event.reply(f"🛑 Oyun {first_name_mention} tərəfindən dayandırıldı")
+    else:
+        await event.reply("❗ Hal-hazırda davam edən bir oyun yoxdur.")
+
+async def show_scores(event):
+    """Puan tablosunu gösterir."""
+    chat_id = event.chat_id
+    game_data = games.get(chat_id, {})
+    
+    if game_data.get("scores"):
+        score_table = "📊 **Puan Tablosu**\n\n"
+        for user_id, score in sorted(game_data["scores"].items(), key=lambda x: x[1], reverse=True):
+            user_name = (await client.get_entity(user_id)).first_name
+            score_table += f"👤 {user_name}: {score} xal\n"
+        await event.reply(score_table)
+    else:
+        await event.reply("📊 Hələ heç kim xal qazanmadı.")
+
+@client.on(events.NewMessage)
+async def check_answer(event):
+    chat_id = event.chat_id
+    game_data = games.get(chat_id)
+    
+    if not game_data or not game_data["current_word"]:
+        return
+    
+    user_id = event.sender_id
+    user_name = (await event.get_sender()).first_name
+    
+    # İstifadəçi düzgün tahmin edibmi?
+    if event.text.lower() == game_data["current_word"].lower():
+        word_length = len(game_data["current_word"])
+        game_data["scores"][user_id] = game_data["scores"].get(user_id, 0) + word_length
+        
+        await event.reply(f"🎉 Təbriklər, {user_name}!\n Düzgün cavabı tapdınız: **{game_data['current_word']}**\n"
+                          f"🔢 Xalınız: {game_data['scores'][user_id]} (+{word_length} xal)")
+        
+        # Yeni tura geç
+        game_data["current_word"] = ""
+        game_data["shuffled_word"] = ""
+        
+        if game_data["tur_sayisi"] < game_data["max_tur"]:
+            await start_new_round(event)
+        else:
+            kazanan_id, en_yuksek_puan = max(game_data["scores"].items(), key=lambda x: x[1])
+            kazanan_name = (await client.get_entity(kazanan_id)).first_name
+            await event.reply(f"🏆 Oyun bitdi! Qalib: {kazanan_name} ({en_yuksek_puan} xal) 🎉")
+            games.pop(chat_id)  # Oyunu bitir ve verileri temizle
+
+@client.on(events.NewMessage(pattern=r"^/pas$", outgoing=True, incoming=True))
+async def skip_turn(event):
+    chat_id = event.chat_id
+    game_data = games.get(chat_id)
+    
+    if not game_data or not game_data["current_word"]:
+        await event.reply("❗ Hal-hazırda davam edən bir oyun yoxdur")
+        return
+    
+    user_id = event.sender_id
+    user_name = (await event.get_sender()).first_name
+    
+    # Kullanıcının mevcut puanı
+    current_score = game_data["scores"].get(user_id, 0)
+    
+    # Eğer kullanıcı yeterli puana sahip değilse
+    if current_score < 5:
+        await event.reply(f"❌ {user_name}, **sözü pas keçmək üçün yetəri qədər xalınız yoxdur**")
+        return
+    
+    # Kullanıcı kelimeyi atladıysa mevcut puanından 5 puan eksilt
+    game_data["scores"][user_id] = current_score - 5
+    
+    await event.reply(f"⏭️ {user_name} **Sözü pas keçdi və 5 xal ondan çıxıldı**\nDüzgün cavab: **{game_data['current_word']}** idi")
+
+    await start_new_round(event)
+
+
+# filter
+
+FILTERS_FILE = 'filters.json'
+
+# Filtrleri yükleme
+def load_filters():
+    if os.path.exists(FILTERS_FILE):
+        with open(FILTERS_FILE, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    return {}
+
+def save_filters(filters):
+    with open(FILTERS_FILE, 'w', encoding='utf-8') as f:
+        json.dump(filters, f, ensure_ascii=False, indent=4)  # UTF-8 dəstəyi üçün
+
+filters = load_filters()
+
+@client.on(events.NewMessage(pattern=r'\.filter (.+)'))
+async def add_filter(event):
+    if not event.is_reply:
+        await event.edit("`Bir mesaja cavab olaraq bu əmri istifadə edin!`")
+        return
+
+    reply_msg = await event.get_reply_message()
+    if not reply_msg or not reply_msg.text:
+        await event.edit("`Cavab verdiyin mesaj mətn deyil`")
+        return
+
+    keyword = reply_msg.text.strip().lower()  # Cavab verilmiş mesaj açar sözdür
+    reply_text = event.pattern_match.group(1).strip()  # .filter-dən sonra yazılan mətn cavabdır
+
+    if not reply_text:
+        await event.edit("`Filtr təyin etmək üçün bir cavab mətni yaz`")
+        return
+
+    filters[keyword] = reply_text
+    save_filters(filters)
+
+    await event.edit(f"`{keyword}` **açar sözü üçün filtr təyin edildi!\nCavab:** `{reply_text}`")
+
+@client.on(events.NewMessage(pattern=r'\.filtersil (.+)'))
+async def remove_filter(event):
+    keyword = event.pattern_match.group(1).strip().lower()
+    if keyword in filters:
+        del filters[keyword]
+        save_filters(filters)
+        await event.edit(f"`{keyword}` **açar sözü üçün filtr silindi**")
+    else:
+        await event.edit(f"`{keyword}` **filter tapılmadı**")
+
+@client.on(events.NewMessage(pattern=r'\.filters'))
+async def list_all_filters(event):
+    if not filters:
+        await event.edit("`Hal-hazırda heç bir filtr təyin edilməyib`")
+        return
+
+    filter_list = "\n".join([f"`{keyword}`: `{reply}`" for keyword, reply in filters.items()])
+    await event.edit(f"Filterlər:\n\n{filter_list}")
+
+@client.on(events.NewMessage(pattern=r'\.delfilterall'))
+async def delete_all_filters(event):
+    if not filters:
+        await event.edit("`Silinəcək heç bir filtr yoxdur`")
+        return
+
+    last_filter = list(filters.items())[-1]
+    filters.clear()
+    filters[last_filter[0]] = last_filter[1]
+
+    save_filters(filters)
+
+    await event.edit(f"`Bütün filtrlər silindi`")
+
+@client.on(events.NewMessage)
+async def auto_reply(event):
+    message_text = event.raw_text.strip().lower()
+
+    for keyword, reply_text in filters.items():
+        if message_text == keyword: 
+            await event.reply(reply_text) 
+            break
+
 
 print("bot aktivdir")
 client.start()
